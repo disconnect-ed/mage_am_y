@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd"
+      layout="2columns-left"
+>
+    <body>
+        <referenceContainer name="content">
+            <block name="rusdolmodule.index.index" class="Magento\Framework\View\Element\Text">
+                <action method="setText">
+                    <argument name="text" xsi:type="string">
+                        Hello World!
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aspernatur aut, autem culpa
+                        deserunt eum facere fugiat harum illum minus nam nihil officiis quas qui sapiente temporibus
+                        ullam! Ab aperiam autem cumque, delectus distinctio doloribus, eius ex, id ipsa quisquam sed
+                        tempore unde voluptatum? Dolor excepturi expedita fuga nihil odit!
+                    </argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
