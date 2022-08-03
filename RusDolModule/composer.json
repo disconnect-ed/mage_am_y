@@ -6,11 +6,6 @@
     "require": {
         "php": "~7.4.0||~8.1.0"
     },
-    "suggest": {
-        "magento/module-cookie": "100.4.*",
-        "magento/module-sales": "103.0.*",
-        "magento/module-catalog-sample-data": "Sample Data version: 100.4.*"
-    },
     "autoload": {
         "files": [
             "registration.php"
