@@ -1,0 +1,16 @@
+<?php
+/** @var Amasty\RusDolModule\Block\Index $block */
+?>
+
+<form class="<?= $block->getData('rus-form') ?>" action="">
+    <label>Введите SKU:
+        <input type="text" name="sku" placeholder="Ваш SKU" class="<?= $block->getData('inp-sku') ?>">
+    </label>
+    <label>Введите QTY:
+        <input type="number" name="qty" placeholder="Ваш QTY" class="<?= $block->getData('inp-qty') ?>">
+    </label>
+    <?= $block->getChildHtml('amasty_rusdolmodule.additional') ?>
+    <button type="submit" class="<?= $block->getData('btn-sbm') ?>">
+        Отправить
+    </button>
+</form>

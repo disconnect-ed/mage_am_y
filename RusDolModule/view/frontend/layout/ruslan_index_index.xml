@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="1column">
+    <head>
+        <css src="Amasty_RusDolModule::css/less.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <container name="amasty_rusdolmodule.main" htmlTag="div" htmlClass="container-add-form">
+                <block class="Amasty\RusDolModule\Block\Index"
+                       name="amasty_rusdolmodule.hello"
+                       template="Amasty_RusDolModule::hello.phtml"/>
+                <block class="Amasty\RusDolModule\Block\Index"
+                       name="amasty_rusdolmodule.form"
+                       template="Amasty_RusDolModule::form.phtml">
+                    <arguments>
+                        <argument name="rus-form" xsi:type="string">rus-form</argument>
+                        <argument name="inp-sku" xsi:type="string">inp-sku</argument>
+                        <argument name="inp-qty" xsi:type="string">inp-qty</argument>
+                        <argument name="btn-sbm" xsi:type="string">btn-sbm</argument>
+                    </arguments>
+                    <block class="Amasty\RusDolModule\Block\Index"
+                           name="amasty_rusdolmodule.additional"
+                           template="Amasty_RusDolModule::additional.phtml"/>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>
