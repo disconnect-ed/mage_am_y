@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="Amasty_RusDolModule" translate="label" sortOrder="10">
+            <label>Amasty RusDolModule</label>
+        </tab>
+
+        <section id="ruslan_config" translate="label" sortOrder="2"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>RusDolModule config</label>
+            <tab>Amasty_RusDolModule</tab>
+            <resource>Amasty_RusDolModule::config</resource>
+            <group id="general" translate="label" sortOrder="2"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Conf</label>
+                <field id="module_enabled" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Is module enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="greeting_text" type="textarea"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Greeting text</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="module_enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="qty_enabled" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Is QTY field enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="module_enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="qty" type="text"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default QTY</label>
+                    <validate>validate-number validate-digits validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="module_enabled">1</field>
+                        <field id="qty_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

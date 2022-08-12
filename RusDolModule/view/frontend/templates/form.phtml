@@ -2,13 +2,24 @@
 /** @var Amasty\RusDolModule\Block\Index $block */
 ?>
 
-<form class="<?= $block->getData('rus-form') ?>" action="">
-    <label>Введите SKU:
-        <input type="text" name="sku" placeholder="Ваш SKU" class="<?= $block->getData('inp-sku') ?>">
-    </label>
-    <label>Введите QTY:
-        <input type="number" name="qty" placeholder="Ваш QTY" class="<?= $block->getData('inp-qty') ?>">
-    </label>
+<form name="form" class="<?= $block->getData('rus-form') ?>"
+      action="<?= $block->getUrl('ruslan/cart/add') ?>" method="GET"
+      data-mage-init='{"validation": {}}'>
+    <div>
+        <label for="sku">Введите SKU:</label>
+        <input type="text" name="sku" placeholder="Ваш SKU" id="sku"
+               data-validate='{"required": true}'
+               class="<?= $block->getData('inp-sku') ?>">
+    </div>
+    <?php if ($block->isShowQty()) { ?>
+        <div>
+            <label for="qty">Введите QTY:</label>
+            <input type="number" name="qty" placeholder="Ваш QTY" id="qty"
+                   data-validate='{"required": true, "integer": true, "validate-greater-than-zero": true}'
+                   value="<?= $block->echoQtyValue() ?>"
+                   class="<?= $block->getData('inp-qty') ?>">
+        </div>
+    <?php }; ?>
     <?= $block->getChildHtml('amasty_rusdolmodule.additional') ?>
     <button type="submit" class="<?= $block->getData('btn-sbm') ?>">
         Отправить

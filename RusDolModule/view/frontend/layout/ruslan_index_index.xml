@@ -3,7 +3,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
       layout="1column">
     <head>
-        <css src="Amasty_RusDolModule::css/less.css" type="text/css" rel="stylesheet"/>
+        <css src="Amasty_RusDolModule::css/style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
         <referenceContainer name="content">
@@ -20,8 +20,7 @@
                         <argument name="inp-qty" xsi:type="string">inp-qty</argument>
                         <argument name="btn-sbm" xsi:type="string">btn-sbm</argument>
                     </arguments>
-                    <block class="Amasty\RusDolModule\Block\Index"
-                           name="amasty_rusdolmodule.additional"
+                    <block name="amasty_rusdolmodule.additional"
                            template="Amasty_RusDolModule::additional.phtml"/>
                 </block>
             </container>
