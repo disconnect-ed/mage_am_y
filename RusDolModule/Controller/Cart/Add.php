@@ -65,8 +65,8 @@ class Add extends Action
     {
         if ($param) {
             $paramValue = $this->getRequest()->getParam($param);
-            if (!$paramValue && $paramValue != 0) {
-                $this->messageManager->addErrorMessage("Параметр под названием $param не найден!");
+            if (!$paramValue) {
+                $this->messageManager->addErrorMessage("Некорректное значение для поля $param!");
                 return null;
             }
             return $paramValue;
