@@ -30,9 +30,6 @@ define(['jquery', 'mage/url'], function ($, urlBuilder) {
                             this.options.searchResultList.empty();
                         }
                     }.bind(this));
-
-
-
                 // var filteredSku = this.options.availableSku.filter(function (item) {
                 //     return item.indexOf(queryText) != -1;
                 // });
