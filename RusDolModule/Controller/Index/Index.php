@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty\RusDolModule\Controller\Index;
 
@@ -29,8 +30,6 @@ class Index extends Action
             return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         } else {
             die('Sorry, dont worry!');
-        };
-
+        }
     }
-
 }
