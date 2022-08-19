@@ -53,8 +53,14 @@ class Add extends Action
         $quote = $this->getQuote();
         $sku = $this->getParam('sku');
         $qty = (int)$this->getParam('qty');
+        if (!$sku || !$qty) {
+            return $redirect->setPath("ruslan/index/index");
+        }
         $product = $this->getProduct($sku);
-        $validate = $this->productValidation($product, $qty);
+        if (!$product) {
+            return $redirect->setPath("ruslan/index/index");
+        }
+        $validate = $this->validateProduct($product, $qty);
         if ($validate) {
             $this->addToCart($quote, $product, $qty);
         }
@@ -71,7 +77,7 @@ class Add extends Action
             }
             return $paramValue;
         }
-        return $param;
+        return false;
     }
 
     protected function getQuote()
@@ -86,32 +92,28 @@ class Add extends Action
     protected function getProduct($param)
     {
         try {
-            if (!$param) return false;
             $product = $this->productRepository->get($param);
         } catch (NoSuchEntityException $e) {
-            $this->messageManager->addWarningMessage($e->getMessage());
+            $this->messageManager->addErrorMessage('Продукт не найден!');
             return false;
         }
         return $product;
     }
 
-    protected function productValidation($product, int $qty)
+    protected function validateProduct($product, int $qty)
     {
-        if (!$product) {
-            $this->messageManager->addErrorMessage('Продукт не найден!');
-            return false;
-        } elseif ($product->getTypeId() !== 'simple') {
+        $isValid = true;
+        if ($product->getTypeId() !== 'simple') {
             $this->messageManager->addErrorMessage('Доступный тип продукта: simple.');
-            return false;
+            $isValid = false;
         } elseif ($qty <= 0) {
             $this->messageManager->addErrorMessage("Невозможно добавить товар в количестве $qty!");
-            return false;
+            $isValid = false;
         } elseif ($qty > $product->getExtensionAttributes()->getStockItem()->getQty()) {
             $this->messageManager->addErrorMessage('Слишком большой параметр Qty!');
-            return false;
-        } else {
-            return true;
+            $isValid = false;
         }
+        return $isValid;
     }
 
     protected function addToCart($quote, $product, $qty)

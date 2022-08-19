@@ -21,7 +21,7 @@ class Index extends Template {
         parent::__construct($context, $data);
     }
 
-    public function echoGreetingText(): string {
+    public function getGreetingText(): string {
         return $this->configProvider->getGreetingText();
     }
 
@@ -29,11 +29,11 @@ class Index extends Template {
         return (bool) $this->configProvider->qtyIsEnabled();
     }
 
-    public function echoQtyValue(): int {
+    public function getQtyValue(): int {
         return (int) $this->configProvider->getQtyValue();
     }
 
-    public function echoText(string $text): string {
+    public function getText(string $text): string {
         return $text;
     }
 }

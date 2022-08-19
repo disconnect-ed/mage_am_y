@@ -1,0 +1,24 @@
+<div>
+    <label for="sku">Введите SKU:</label>
+    <div class="inp-wrap">
+        <input type="text" name="sku" placeholder="Ваш SKU" id="sku"
+               data-bind="textInput: searchText"
+               data-validate='{"required": true}'>
+        <small data-bind="if: showMessage">Поиск не дал результатов.</small>
+        <div class="product-list-wrap" data-bind="if: searchResult">
+            <ul class="product-list" data-bind="foreach: searchResult">
+                <li data-bind="click: $parent.selectProduct.bind($parent, $data)" class="product-list-item">
+                    <img data-bind="attr: {src: $data.img, alt: $data.name}"/>
+                    <div>
+                        <div><b>Sku: </b><i data-bind="text: $data.sku"></i></div>
+                        <div><b>Name: </b><i data-bind="text: $data.name"></i></div>
+                    </div>
+                    <div>
+                        <b>Price: </b>
+                        <span data-bind="text: $data.price"></span>$
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
