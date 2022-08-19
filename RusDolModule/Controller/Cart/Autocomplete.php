@@ -83,7 +83,7 @@ class Autocomplete extends Action
                 $productList[$i]['img'] = $this->getImage($product)->getImageUrl();
                 $i++;
             }
-
+            
             return $result->setData($productList);
         }
         return $result->setData(['message' => 'Missing parameter: ' . self::SEARCH_PARAM])
