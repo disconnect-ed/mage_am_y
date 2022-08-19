@@ -68,6 +68,11 @@ class Autocomplete extends Action
                 ->setPageSize(5)
                 ->setCurPage(1);
 
+            if ($collection->getSize() <= 0) {
+                return $result->setData(['message' => 'Not Found'])
+                    ->setHttpResponseCode(404);
+            }
+
             $productList = [];
             $i = 0;
 
@@ -79,13 +84,10 @@ class Autocomplete extends Action
                 $i++;
             }
 
-            if ($collection->getSize() > 0) {
-                return $result->setData($productList);
-            } else {
-                return $result->setData(['message' => 'Not Found'])
-                    ->setHttpResponseCode(404);
-            }
+            return $result->setData($productList);
         }
+        return $result->setData(['message' => 'Missing parameter: ' . self::SEARCH_PARAM])
+            ->setHttpResponseCode(418);
     }
 
     protected function getImage($product, $imageId = 'product_thumbnail_image')
