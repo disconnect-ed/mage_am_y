@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<!--    <type name="Amasty\RusDolModule\Block\Index">-->
+<!--        <plugin name="changeFormAction" type="Amasty\SecondRusDolModule\Plugin\ChangeFormActionPlugin"/>-->
+<!--    </type>-->
+    <type name="Magento\Checkout\Controller\Cart\Add">
+        <plugin name="addToCart" type="Amasty\SecondRusDolModule\Plugin\AddToCartPlugin"/>
+    </type>
+</config>

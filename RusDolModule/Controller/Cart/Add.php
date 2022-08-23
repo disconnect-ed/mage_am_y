@@ -9,6 +9,7 @@ use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 class Add extends Action
 {
@@ -27,17 +28,24 @@ class Add extends Action
      */
     private $configProvider;
 
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
+
     public function __construct(
         Context $context,
         Session $session,
         ProductRepositoryInterface $productRepository,
-        ConfigProvider $configProvider
+        ConfigProvider $configProvider,
+        EventManager $eventManager
     )
     {
         parent::__construct($context);
         $this->session = $session;
         $this->productRepository = $productRepository;
         $this->configProvider = $configProvider;
+        $this->eventManager = $eventManager;
     }
 
     public function execute()
@@ -64,6 +72,10 @@ class Add extends Action
         if ($validate) {
             $this->addToCart($quote, $product, $qty);
         }
+        $this->eventManager->dispatch(
+            'amasty_rusdolmodule_add_promo',
+            ['productSku' => $sku]
+        );
         return $redirect->setPath("ruslan/index/index");
     }
 

@@ -3,7 +3,9 @@
 ?>
 
 <form name="form" class="<?= $block->getData('rus-form') ?>"
-      action="<?= $block->getUrl('ruslan/cart/add') ?>" method="GET"
+      action="<?= $block->getFormAction() ?>"
+      method="POST"
+      id="rus-form"
       data-mage-init='{"validation": {}}'>
     <div class="fields-wrap">
         <div class="<?= $block->getData('inp-sku') ?>" data-bind="scope: 'autocomplete'">
@@ -39,5 +41,4 @@
                 }
             }
     }
-
 </script>

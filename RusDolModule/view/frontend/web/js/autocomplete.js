@@ -29,16 +29,14 @@ define(['uiComponent', 'jquery', 'mage/url', 'ko'], function (Component, $, urlB
                     url: urlBuilder.build('ruslan/cart/autocomplete?sku=' + searchText),
                     type: "GET",
                     dataType: 'json',
-                    statusCode: {
-                        200: function (data) {
-                            this.searchResult(data);
-                            this.showMessage(false);
-                        }.bind(this),
-                        404: function () {
-                            this.searchResult(null);
-                            this.showMessage(true);
-                        }.bind(this)
-                    }
+                    success: function (data) {
+                        this.searchResult(data);
+                        this.showMessage(false);
+                    }.bind(this),
+                    error: function () {
+                        this.searchResult(null);
+                        this.showMessage(true);
+                    }.bind(this)
                 });
             }
         }
