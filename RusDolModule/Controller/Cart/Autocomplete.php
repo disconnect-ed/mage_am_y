@@ -57,8 +57,7 @@ class Autocomplete extends Action
     {
         $result = $this->jsonFactory->create();
         if (!$this->configProvider->moduleIsEnable()) {
-            return $result->setData(['success' => false])
-                ->setHttpResponseCode(500);
+            return $result->setData(['success' => false])->setHttpResponseCode(500);
         }
         $sku = (string)$this->getRequest()->getParam(self::SEARCH_PARAM);
         if ($sku) {

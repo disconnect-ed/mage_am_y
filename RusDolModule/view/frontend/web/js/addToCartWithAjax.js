@@ -1,10 +1,10 @@
-//этот код предназначен для проверки доп. задания в 6-м уроке
+//код для проверки доп. задания в 6-м уроке
 define([
     "jquery",
     'Magento_Customer/js/customer-data'
 ],function($, customerData) {
     $(document).ready(function() {
-        $('#rus-form').submit(function(e) {
+        $('.rus-form').submit(function(e) {
 
             e.preventDefault();
 

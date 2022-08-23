@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Amasty\RusDolModule\Plugin;
 
 use Magento\Framework\App\Request\Http;
-use Magento\Framework\Event\Observer;
 
 class StopAjaxPlugin
 {

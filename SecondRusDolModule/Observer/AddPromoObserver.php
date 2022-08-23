@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Amasty\SecondRusDolModule\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Event\Observer;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Checkout\Model\Session;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Checkout\Model\Session;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
 
 class AddPromoObserver implements ObserverInterface
 {

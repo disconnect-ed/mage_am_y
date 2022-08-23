@@ -39,8 +39,7 @@ class Index extends Template {
         return $text;
     }
 
-    public function getFormAction()
-    {
+    public function getFormAction(): string {
         return $this->getUrl(self::FORM_ACTION);
     }
 }

@@ -31,9 +31,9 @@ class AddToCartPlugin
 
     public function beforeExecute(Add $subject)
     {
-        $sku = (string)$subject->getRequest()->getParam('sku');
         if (!$subject->getRequest()->getParam('product')) {
             try {
+                $sku = (string)$subject->getRequest()->getParam('sku');
                 $product = $this->productRepository->get($sku);
                 $subject->getRequest()->setParams(['product' => $product->getId()]);
             } catch (NoSuchEntityException $e) {
