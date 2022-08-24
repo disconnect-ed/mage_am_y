@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <default>
+        <second_ruslan_config>
+            <general>
+                <for_sku>24-MG04, 24-MG01, 24-MG05</for_sku>
+            </general>
+        </second_ruslan_config>
+    </default>
+</config>

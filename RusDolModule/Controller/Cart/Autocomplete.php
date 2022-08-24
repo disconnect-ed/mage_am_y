@@ -57,8 +57,7 @@ class Autocomplete extends Action
     {
         $result = $this->jsonFactory->create();
         if (!$this->configProvider->moduleIsEnable()) {
-            return $result->setData(['message' => 'Module disabled'])
-                ->setHttpResponseCode(500);
+            return $result->setData(['success' => false])->setHttpResponseCode(500);
         }
         $sku = (string)$this->getRequest()->getParam(self::SEARCH_PARAM);
         if ($sku) {
@@ -69,25 +68,23 @@ class Autocomplete extends Action
                 ->setCurPage(1);
 
             if ($collection->getSize() <= 0) {
-                return $result->setData(['message' => 'Not Found'])
-                    ->setHttpResponseCode(404);
+                return $result->setData(['success' => false])->setHttpResponseCode(404);
             }
 
             $productList = [];
-            $i = 0;
 
             foreach ($collection as $product) {
-                $productList[$i]['name'] = $product->getName();
-                $productList[$i]['sku'] = $product->getSku();
-                $productList[$i]['price'] = $product->getFinalPrice();
-                $productList[$i]['img'] = $this->getImage($product)->getImageUrl();
-                $i++;
+                $productList[] = [
+                    'name' => $product->getName(),
+                    'sku' => $product->getSku(),
+                    'price' => $product->getFinalPrice(),
+                    'img' => $this->getImage($product)->getImageUrl()
+                ];
             }
             
             return $result->setData($productList);
         }
-        return $result->setData(['message' => 'Missing parameter: ' . self::SEARCH_PARAM])
-            ->setHttpResponseCode(418);
+        return $result->setData(['success' => false])->setHttpResponseCode(418);
     }
 
     protected function getImage($product, $imageId = 'product_thumbnail_image')

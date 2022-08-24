@@ -12,6 +12,8 @@ class Index extends Template {
      */
     private $configProvider;
 
+    const FORM_ACTION = 'ruslan/cart/add';
+
     public function __construct(
         Template\Context $context,
         ConfigProvider $configProvider,
@@ -35,5 +37,9 @@ class Index extends Template {
 
     public function getText(string $text): string {
         return $text;
+    }
+
+    public function getFormAction(): string {
+        return $this->getUrl(self::FORM_ACTION);
     }
 }
