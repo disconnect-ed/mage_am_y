@@ -71,11 +71,11 @@ class Add extends Action
         $validate = $this->validateProduct($product, $qty);
         if ($validate) {
             $this->addToCart($quote, $product, $qty);
+            $this->eventManager->dispatch(
+                'amasty_rusdolmodule_add_promo',
+                ['productSku' => $sku]
+            );
         }
-        $this->eventManager->dispatch(
-            'amasty_rusdolmodule_add_promo',
-            ['productSku' => $sku]
-        );
         return $redirect->setPath("ruslan/index/index");
     }
 
