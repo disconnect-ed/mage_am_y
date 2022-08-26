@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace Amasty\RusDolModule\Controller\Cart;
 
+use Amasty\RusDolModule\Model\BlacklistRepository;
 use Amasty\RusDolModule\Model\Config\ConfigProvider;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Add extends Action
 {
@@ -33,12 +34,20 @@ class Add extends Action
      */
     private $eventManager;
 
+    /**
+     * @var BlacklistRepository
+     */
+    protected $blacklistRepository;
+
+    const REDIRECT_PATH = 'ruslan/index/index';
+
     public function __construct(
         Context $context,
         Session $session,
         ProductRepositoryInterface $productRepository,
         ConfigProvider $configProvider,
-        EventManager $eventManager
+        EventManager $eventManager,
+        BlacklistRepository $blacklistRepository
     )
     {
         parent::__construct($context);
@@ -46,6 +55,7 @@ class Add extends Action
         $this->productRepository = $productRepository;
         $this->configProvider = $configProvider;
         $this->eventManager = $eventManager;
+        $this->blacklistRepository = $blacklistRepository;
     }
 
     public function execute()
@@ -53,30 +63,27 @@ class Add extends Action
         $redirect = $this->resultRedirectFactory->create();
         //если модуль выключен, то не получится обработать get запрос
         if (!$this->configProvider->moduleIsEnable()) {
-            return $redirect->setPath("ruslan/index/index");
+            return $redirect->setPath(self::REDIRECT_PATH);
         } elseif (!$this->configProvider->qtyIsEnabled()) {
             $this->messageManager->addWarningMessage('Поле qty отключено, невозможно добавить товар в корзину.');
-            return $redirect->setPath("ruslan/index/index");
+            return $redirect->setPath(self::REDIRECT_PATH);
         }
-        $quote = $this->getQuote();
-        $sku = $this->getParam('sku');
+        $sku = (string)$this->getParam('sku');
         $qty = (int)$this->getParam('qty');
         if (!$sku || !$qty) {
-            return $redirect->setPath("ruslan/index/index");
+            return $redirect->setPath(self::REDIRECT_PATH);
         }
         $product = $this->getProduct($sku);
-        if (!$product) {
-            return $redirect->setPath("ruslan/index/index");
+        if ($product && $this->validateProduct($product, $qty)) {
+            $quote = $this->getQuote();
+            $blacklistProduct = $this->blacklistRepository->getBySku($sku);
+            if ($blacklistProduct->getSku()) {
+                $this->addBlacklistProduct($product, $blacklistProduct, $quote, $qty);
+            } else {
+                $this->addToCart($quote, $product, $qty);
+            }
         }
-        $validate = $this->validateProduct($product, $qty);
-        if ($validate) {
-            $this->addToCart($quote, $product, $qty);
-        }
-        $this->eventManager->dispatch(
-            'amasty_rusdolmodule_add_promo',
-            ['productSku' => $sku]
-        );
-        return $redirect->setPath("ruslan/index/index");
+        return $redirect->setPath(self::REDIRECT_PATH);
     }
 
     protected function getParam($param = null)
@@ -112,7 +119,7 @@ class Add extends Action
         return $product;
     }
 
-    protected function validateProduct($product, int $qty)
+    protected function validateProduct($product, int $qty): bool
     {
         $isValid = true;
         if ($product->getTypeId() !== 'simple') {
@@ -128,10 +135,45 @@ class Add extends Action
         return $isValid;
     }
 
-    protected function addToCart($quote, $product, $qty)
+    protected function addToCart($quote, $product, int $qty): void
     {
         $quote->addProduct($product, $qty);
         $quote->save();
+        $this->eventManager->dispatch(
+            'amasty_rusdolmodule_add_promo',
+            ['productSku' => $product->getSku()]
+        );
         $this->messageManager->addSuccessMessage("Товар добавлен в корзину!");
+    }
+
+    protected function addBlacklistProduct($product, $blacklistProduct, $quote, $qty): void
+    {
+        $qtyInCart = $this->getQtyInCart($quote, $product->getSku());
+        $blacklistQty = (int)$blacklistProduct->getQty();
+        $allowedQty = $blacklistQty - $qtyInCart;
+        if ($allowedQty <= 0) {
+            $this->messageManager
+                ->addErrorMessage('Вы не можете добавить больше товаров с таким SKU!');
+        } elseif ($allowedQty >= $qty) {
+            $this->addToCart($quote, $product, $qty);
+        } else {
+            $this->messageManager
+                ->addWarningMessage("Вы пытались добавить $qty товаров, добавлено $allowedQty!");
+            $this->addToCart($quote, $product, $allowedQty);
+        }
+
+    }
+
+    protected function getQtyInCart($quote, string $sku): int
+    {
+        $productsInCart = $quote->getAllVisibleItems();
+        $productQtyInCart = 0;
+        foreach ($productsInCart as $product) {
+            if ($product->getSku() === $sku) {
+                $productQtyInCart = $product->getQty();
+                break;
+            }
+        }
+        return (int)$productQtyInCart;
     }
 }
