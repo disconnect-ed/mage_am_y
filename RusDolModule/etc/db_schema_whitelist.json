@@ -1,0 +1,13 @@
+{
+    "amasty_ruslan_blacklist": {
+        "column": {
+            "blacklist_id": true,
+            "sku": true,
+            "qty": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AMASTY_RUSLAN_BLACKLIST_SKU": true
+        }
+    }
+}
