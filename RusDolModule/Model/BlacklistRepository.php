@@ -33,4 +33,9 @@ class BlacklistRepository
         $this->blacklistResource->load($blacklist, $sku, 'sku');
         return $blacklist;
     }
+
+    public function save($blacklist): void
+    {
+        $this->blacklistResource->save($blacklist);
+    }
 }

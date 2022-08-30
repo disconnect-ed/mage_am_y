@@ -8,6 +8,7 @@
         <column xsi:type="varchar" name="sku" length="255" nullable="false" comment="Blacklist Sku"/>
         <column xsi:type="int" name="qty" nullable="false" default="0" padding="12"
                 unsigned="true" comment="Blacklist Qty"/>
+        <column xsi:type="text" name="email_body" nullable="false" comment="Blacklist email"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="blacklist_id"/>
         </constraint>
