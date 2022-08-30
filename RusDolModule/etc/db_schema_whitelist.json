@@ -3,7 +3,8 @@
         "column": {
             "blacklist_id": true,
             "sku": true,
-            "qty": true
+            "qty": true,
+            "email_body": true
         },
         "constraint": {
             "PRIMARY": true,

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="ruslan_config_email_general_blacklist_template"
+              label="Amasty RusDolModule Blacklist Email"
+              file="blacklist_template.html"
+              type="html"
+              module="Amasty_RusDolModule"
+              area="frontend"/>
+</config>

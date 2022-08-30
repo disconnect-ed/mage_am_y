@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="amasty_rusdolmodule_cron">
+        <job name="amasty_rusdolmodule_blacklist_notification"
+             instance="Amasty\RusDolModule\Cron\SendBlacklistEmail" method="execute">
+            <schedule>*/3 * * * *</schedule>
+            <config_path>ruslan_config/cron_general/set_cron_schedule</config_path>
+        </job>
+    </group>
+</config>

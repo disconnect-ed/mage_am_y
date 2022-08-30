@@ -1,0 +1,17 @@
+<!--@subject Amasty RusDolModule BlackList Product @-->
+<!--@vars
+{
+"var sku":"Sku",
+"var qty":"Qty"
+}
+@-->
+{{template config_path="design/email/header_template"}}
+
+{{layout handle="amasty_rusdolmodule_email" sku=$sku}}
+
+<div style="text-align: center; color: orangered">
+    <small>{{trans "Product Sku: %sku" sku=$sku}}</small>
+    <small>{{trans "Product Qty: %qty" qty=$qty}}</small>
+</div>
+
+{{template config_path="design/email/footer_template"}}

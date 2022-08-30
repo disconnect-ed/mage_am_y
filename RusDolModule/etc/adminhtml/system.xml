@@ -47,6 +47,27 @@
                     </depends>
                 </field>
             </group>
+
+            <group id="email_general" translate="label" showInDefault="2" showInWebsite="1" showInStore="1">
+                <label>Email Configuration</label>
+                <field id="email_to" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email To</label>
+                    <validate>validate-email</validate>
+                </field>
+
+                <field id="blacklist_template" translate="label" type="select" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Select Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+            </group>
+
+            <group id="cron_general" translate="label" showInDefault="3" showInWebsite="1" showInStore="1">
+                <label>Cron Settings</label>
+                <field id="set_cron_schedule" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Set Cron Schedule</label>
+                </field>
+            </group>
         </section>
     </system>
 </config>
