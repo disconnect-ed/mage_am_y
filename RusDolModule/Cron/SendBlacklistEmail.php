@@ -6,11 +6,9 @@ namespace Amasty\RusDolModule\Cron;
 use Amasty\RusDolModule\Model\BlacklistProvider;
 use Amasty\RusDolModule\Model\BlacklistRepository;
 use Amasty\RusDolModule\Model\Config\ConfigProvider;
-use Error;
 use Magento\Framework\Mail\Template\Factory;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Psr\Log\LoggerInterface;
-use function PHPUnit\Framework\throwException;
 
 class SendBlacklistEmail
 {
