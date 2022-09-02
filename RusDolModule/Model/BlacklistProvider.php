@@ -22,6 +22,6 @@ class BlacklistProvider
     public function getFirstBlacklistProduct()
     {
         $blacklistCollection = $this->blacklistCollectionFactory->create();
-        return $blacklistProduct = $blacklistCollection->getFirstItem();
+        return $blacklistCollection->getFirstItem();
     }
 }
