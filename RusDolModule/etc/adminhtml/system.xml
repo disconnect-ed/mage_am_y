@@ -12,7 +12,7 @@
             <label>RusDolModule config</label>
             <tab>Amasty_RusDolModule</tab>
             <resource>Amasty_RusDolModule::config</resource>
-            <group id="general" translate="label" sortOrder="2"
+            <group id="general" translate="label" sortOrder="1"
                    showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General Conf</label>
                 <field id="module_enabled" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -48,7 +48,8 @@
                 </field>
             </group>
 
-            <group id="email_general" translate="label" showInDefault="2" showInWebsite="1" showInStore="1">
+            <group id="email_general" translate="label" sortOrder="2" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
                 <label>Email Configuration</label>
                 <field id="email_to" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Email To</label>
@@ -62,7 +63,7 @@
                 </field>
             </group>
 
-            <group id="cron_general" translate="label" showInDefault="3" showInWebsite="1" showInStore="1">
+            <group id="cron_general" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Cron Settings</label>
                 <field id="set_cron_schedule" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Set Cron Schedule</label>

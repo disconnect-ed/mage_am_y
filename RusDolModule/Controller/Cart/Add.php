@@ -39,7 +39,7 @@ class Add extends Action
      */
     protected $blacklistRepository;
 
-    const REDIRECT_PATH = 'ruslan/index/index';
+    protected const REDIRECT_PATH = 'ruslan/index/index';
 
     public function __construct(
         Context $context,
@@ -78,10 +78,11 @@ class Add extends Action
             $quote = $this->getQuote();
             $blacklistProduct = $this->blacklistRepository->getBySku($sku);
             if ($blacklistProduct->getSku()) {
-                $this->addBlacklistProduct($product, $blacklistProduct, $quote, $qty);
-            } else {
-                $this->addToCart($quote, $product, $qty);
+                $qty = $this->getAllowedQty($product, $blacklistProduct, $quote, $qty);
             }
+
+            (bool)$qty && $this->addToCart($quote, $product, $qty);
+
         }
         return $redirect->setPath(self::REDIRECT_PATH);
     }
@@ -140,40 +141,28 @@ class Add extends Action
         $quote->addProduct($product, $qty);
         $quote->save();
         $this->eventManager->dispatch(
-            'amasty_rusdolmodule_add_promo',
+            'amasty_secondrusdolmodule_add_promo',
             ['productSku' => $product->getSku()]
         );
-        $this->messageManager->addSuccessMessage("Товар добавлен в корзину!");
+        $this->messageManager->addSuccessMessage("Товар добавлен в корзину ($qty шт.)!");
     }
 
-    protected function addBlacklistProduct($product, $blacklistProduct, $quote, $qty): void
+    protected function getAllowedQty($product, $blacklistProduct, $quote, $qty): int
     {
-        $qtyInCart = $this->getQtyInCart($quote, $product->getSku());
+        $productInCart = $quote->getItemByProduct($product);
+        $qtyInCart = $productInCart ? (int)$productInCart->getQty() : 0;
         $blacklistQty = (int)$blacklistProduct->getQty();
         $allowedQty = $blacklistQty - $qtyInCart;
         if ($allowedQty <= 0) {
+            $allowedQty = 0;
             $this->messageManager
                 ->addErrorMessage('Вы не можете добавить больше товаров с таким SKU!');
         } elseif ($allowedQty >= $qty) {
-            $this->addToCart($quote, $product, $qty);
+            $allowedQty = $qty;
         } else {
             $this->messageManager
-                ->addWarningMessage("Вы пытались добавить $qty товаров, добавлено $allowedQty!");
-            $this->addToCart($quote, $product, $allowedQty);
+                ->addWarningMessage("Вы пытались добавить $qty товаров, возможно добавить $allowedQty!");
         }
-
-    }
-
-    protected function getQtyInCart($quote, string $sku): int
-    {
-        $productsInCart = $quote->getAllVisibleItems();
-        $productQtyInCart = 0;
-        foreach ($productsInCart as $product) {
-            if ($product->getSku() === $sku) {
-                $productQtyInCart = $product->getQty();
-                break;
-            }
-        }
-        return (int)$productQtyInCart;
+        return $allowedQty;
     }
 }
