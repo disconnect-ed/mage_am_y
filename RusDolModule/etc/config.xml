@@ -14,6 +14,9 @@
                 <email_to>ruslandv@gmail.com</email_to>
                 <blacklist_template>ruslan_config_email_general_blacklist_template</blacklist_template>
             </email_general>
+            <cron_general>
+                <set_cron_schedule>*/2 * * * *</set_cron_schedule>
+            </cron_general>
         </ruslan_config>
     </default>
 </config>
